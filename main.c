@@ -15,6 +15,8 @@ void calculateSalary();
 void displayComparison();
 
 int main() {
+    struct Employee employees[10];
+    employees[0].id = 100;
     return 0;
 }
 
