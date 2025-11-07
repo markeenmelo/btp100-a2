@@ -1,0 +1,91 @@
+// Max: function to display employees, with optional filters by gender/ethnicity
+void displayEmployees(struct employee *list, int count) {
+    if (count == 0) {                // Max: check if there are employees in the system
+        printf("\nNo employees to display.\n");
+        return;
+    }
+
+    int option;                      // Max: store filter option
+    char gender[20];                 // Max: gender filter text
+    char ethnicity[30];              // Max: ethnicity filter text
+
+    // Max: show display options
+    printf("\n--- Display Employees ---\n");
+    printf("1. All employees\n");
+    printf("2. Filter by gender\n");
+    printf("3. Filter by ethnicity\n");
+    printf("4. Filter by gender AND ethnicity\n");
+    printf("Choose an option: ");
+    scanf("%d", &option);
+    clearInputBuffer();              // Max: clear buffer to avoid leftover characters
+
+    // Max: take gender input if needed
+    if (option == 2 || option == 4) {
+        printf("Enter gender to filter by: ");
+        scanf("%19s", gender);
+        clearInputBuffer();
+    }
+
+    // Max: take ethnicity input if needed
+    if (option == 3 || option == 4) {
+        printf("Enter ethnicity to filter by: ");
+        scanf("%29[^\n]", ethnicity);
+        clearInputBuffer();
+    }
+
+    int found = 0;                   // Max: track if any match found
+    struct employee *p = list;       // Max: pointer to iterate employees
+
+    // Max: loop using pointer arithmetic
+    for (int i = 0; i < count; i++, p++) {
+        int match = 1;               // Max: assume record matches
+
+        if (option == 2 && strcmp(p->gender, gender) != 0)
+            match = 0;               // Max: skip if gender mismatch
+        if (option == 3 && strcmp(p->ethnicity, ethnicity) != 0)
+            match = 0;               // Max: skip if ethnicity mismatch
+        if (option == 4 &&
+            (strcmp(p->gender, gender) != 0 ||
+             strcmp(p->ethnicity, ethnicity) != 0))
+            match = 0;               // Max: skip if both filters fail
+
+        if (option == 1 || match) {  // Max: print if all or matching
+            printEmployee(p);
+            found = 1;
+        }
+    }
+
+    if (!found && option != 1) {     // Max: no matches message
+        printf("No employees match your filters.\n");
+    }
+}
+
+
+// Max: simplified salary comparison (Marcos handles calculations)
+void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg) {
+    printf("\n--- Salary Comparison Report ---\n");
+
+    // Max: gender comparison
+    if (maleAvg > 0 && femaleAvg > 0) {
+        float diff = maleAvg - femaleAvg;
+        if (diff > 0)
+            printf("Male employees earn %.2f more on average than female employees.\n", diff);
+        else if (diff < 0)
+            printf("Female employees earn %.2f more on average than male employees.\n", -diff);
+        else
+            printf("Male and female employees earn the same on average.\n");
+    }
+
+    // Max: ethnicity comparison
+    if (bipocAvg > 0 && nonBipocAvg > 0) {
+        float diff = nonBipocAvg - bipocAvg;
+        if (diff > 0)
+            printf("Non-BIPOC employees earn %.2f more on average than BIPOC employees.\n", diff);
+        else if (diff < 0)
+            printf("BIPOC employees earn %.2f more on average than Non-BIPOC employees.\n", -diff);
+        else
+            printf("BIPOC and Non-BIPOC employees earn the same on average.\n");
+    }
+
+    printf("\nEquity assessment complete.\n");
+}
