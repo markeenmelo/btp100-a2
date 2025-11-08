@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 
 struct Employee {
     int id;
@@ -10,7 +11,8 @@ struct Employee {
 
 struct employee addEmployee();
 void deleteEmployee();
-void displayEmployees(struct employee *list, int count);
+void displayEmployees(struct Employee *list, int count);
+void findEmployee(int id);
 void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg);
 void displayComparison();
 
@@ -70,7 +72,7 @@ void deleteEmployee() {
 
 };
 // Max: function to display employees, with optional filters by gender/ethnicity
-void displayEmployees(struct employee *list, int count) {
+void displayEmployees(struct Employee *list, int count) {
     if (count == 0) {                // Max: check if there are employees in the system
         printf("\nNo employees to display.\n");
         return;
@@ -129,7 +131,10 @@ void displayEmployees(struct employee *list, int count) {
     if (!found && option != 1) {     // Max: no matches message
         printf("No employees match your filters.\n");
     }
-}
+};
+void findEmployee(int id) {
+    printf('%d Employee', id);
+};
 // Max: simplified salary comparison (Marcos handles calculations)
 void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg) {
     printf("\n--- Salary Comparison Report ---\n");
@@ -157,7 +162,7 @@ void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBip
     }
 
     printf("\nEquity assessment complete.\n");
-}
+};
 void displayComparison() {
 
 };
