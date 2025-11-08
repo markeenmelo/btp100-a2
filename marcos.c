@@ -9,7 +9,7 @@ struct Employee {
     float salary;
 };
 
-
+void findEmployee(struct Employee *employees, int targetId);
 float calculateAverageSalary(struct Employee *employees, const char *targetGender, const char *targetEthnicity);
 void displayComparison(struct Employee *employees);
 int areStringsEqual(const char *str1, const char *str2);
@@ -37,6 +37,24 @@ int areStringsEqual(const char *str1, const char *str2) {
         i++;
     }
     return 1;
+}
+
+void findEmployee(struct Employee *employees, int targetId) {
+    int found = 0;
+    for (int i = 0; i < MAX_EMPLOYEES; i++) {
+        if (employees[i].id == targetId) {
+            printf("ID: %d\n", employees[i].id);
+            printf("Name: %s\n", employees[i].name);
+            printf("Gender: %s\n", employees[i].gender);
+            printf("Ethnicity: %s\n", employees[i].ethnicity);
+            printf("Salary: $%.2f\n", employees[i].salary);
+            found = 1;
+            break;
+        }
+    }
+    if (!found) {
+        printf("Employee with ID %d not found\n", targetId);
+    }
 }
 
 float calculateAverageSalary(struct Employee *employees, const char *targetGender, const char *targetEthnicity) {
