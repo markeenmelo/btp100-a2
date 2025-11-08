@@ -28,9 +28,10 @@ int main() {
 		printf("Options:\n");
 		printf("1. Add employee\n");
 		printf("2. Remove employee\n");
-		printf("3. \n");
-		printf("4. \n");
-		printf("5. \n");
+		printf("3. Display employees\n");
+		printf("4. Salary analysis\n");
+		printf("5. Display comparison\n");
+		printf("6. \n");
 		scanf("%d", &choice);
 
 		switch(choice){
