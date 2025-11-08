@@ -2,27 +2,69 @@
 
 struct Employee {
     int id;
-    char name[20];
-    char gender[20];
-    char ethnicity[20];
+    char name[50];
+    char gender[50];
+    char ethnicity[50];
     float salary;
 };
 
-void addEmployee();
+struct employee addEmployee();
 void deleteEmployee();
 void displayEmployees(struct employee *list, int count);
 void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg);
 void displayComparison();
 
 int main() {
-    struct Employee employees[10];
-    employees[0].id = 100;
+    struct Employee employees[100];
+    int main() {
+	int choice = 1, i = 0;
+	struct employee employeeList[50];
+	int ID;
+	char name[50], gender[50], ethnicity[50];
+	float salary;
+
+	printf("Welcome to the company's data management program\n");
+	do {
+		printf("Options:\n");
+		printf("1. Add employee\n");
+		printf("2. Remove employee\n");
+		printf("3. \n");
+		printf("4. \n");
+		printf("5. \n");
+		scanf("%d", &choice);
+
+		switch(choice){
+		case 1: 
+			employeeList[i] = addEmployee();
+            i++;
+			break;
+		case 2: 
+			deleteEmployee; 
+			break;
+		}
+	} while (choice != 0);
+	return 0;
+}
+
     return 0;
 }
 
-void addEmployee() {
+struct employee addEmployee(){
+	struct employee list;
+	printf("Enter new employee ID: ");
+	scanf("%d", &list.id);
+	printf("Enter employee name: ");
+	scanf("%49s", list.name);
+	printf("Enter employee gender: ");
+	scanf("%49s", list.gender);
+	printf("Enter employee ethnicity: ");
+	scanf("%49s", list.ethnicity);
+	printf("Enter employee salary: ");
+	scanf("%f", &list.salary); 
+	return list;
 
-};
+}
+
 void deleteEmployee() {
 
 };
