@@ -52,9 +52,7 @@ void findEmployee(struct Employee *employees, int targetId) {
             break;
         }
     }
-    if (!found) {
-        printf("Employee with ID %d not found\n", targetId);
-    }
+    if (!found) printf("Employee with ID %d not found\n", targetId);
 }
 
 float calculateAverageSalary(struct Employee *employees, const char *targetGender, const char *targetEthnicity) {
