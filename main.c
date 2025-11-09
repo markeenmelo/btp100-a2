@@ -1,6 +1,6 @@
-#define maxEmployee 50
 #include <stdio.h>
 #include <string.h>
+#define MAX_EMPLOYEES 50
 
 struct Employee {
     int id;
@@ -10,140 +10,140 @@ struct Employee {
     float salary;
 };
 
-struct employee addEmployee(struct employee employeeList[], int size);
-void deleteEmployee(int ID, struct employee employeeList[], int* size);
+struct Employee addEmployee(struct Employee employees[], int size);
+void deleteEmployee(int ID, struct Employee employees[], int* size);
 void displayEmployees(struct Employee *list, int count);
-void findEmployee(int id);
-void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg);
-void displayComparison();
-//
+
 int main() {
-    struct Employee employees[100];
-    int main() {
-	int choice = 1, i = 0;
-	struct employee employeeList[50];
-	int ID;
-	char name[50], gender[50], ethnicity[50];
-	float salary;
 
-	printf("Welcome to the company's data management program\n");
-	do {
-		printf("Options:\n");
-		printf("1. Add employee\n");
-		printf("2. Remove employee\n");
-		printf("3. Display employees\n");
-		printf("4. Salary analysis\n");
-		printf("5. Display comparison\n");
-		printf("6. \n");
-		scanf("%d", &choice);
+    struct Employee employees[MAX_EMPLOYEES] = {
+        {101, "John Doe", "male", "black", 45000.50},
+        {102, "Diego Rivera", "male", "indigineous", 52000.75},
+        {103, "Marcus Lee", "male", "people of color", 51000.80},
+        {104, "Mary Johnson", "female", "black", 48000.25},
+        {105, "Nora Jones", "female", "indigineous", 55000.00},
+        {106, "Sarah Wilson", "female", "people of color", 53000.00},
+        {107, "Taylor Morgan", "non-binary", "black", 47000.00},
+        {108, "Alex Redbird", "non-binary", "indigineous", 46000.00},
+        {109, "Casey Rivera", "non-binary", "people of color", 49500.00}
+    };
 
-		switch(choice){
-		case 1: 
-			employeeList[i] = addEmployee();
+    int choice = 1, i = 0;
+    int ID;
+
+    printf("Welcome to the company's data management program\n");
+    do {
+        printf("Options:\n");
+        printf("1. Add employee\n");
+        printf("2. Remove employee\n");
+        printf("3. Display employees\n");
+        printf("4. Salary analysis\n");
+        printf("5. Display comparison\n");
+        printf("6. Exit\n");
+        scanf("%d", &choice);
+
+        switch(choice) {
+            case 1:
+                employees[i] = addEmployee(employees, i);
+                i++;
+                break;
+            case 2:
+                if (i == 0) {
+                    printf("No employees to remove.\n");
+                } else {
+                    printf("Enter employee ID to remove: ");
+                    scanf("%d", &ID);
+                    deleteEmployee(ID, employees, &i);
+                }
+                break;
+            default:
+                printf("Invalid choice, try again\n");
+                break;
+        }
+    } while (choice != 6);
+
+    return 0;
+}
+
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+int idCheck(int ID, struct Employee employeeList[], int size) {
+    for (int i = 0; i < size; i++) {
+        if (employeeList[i].id == ID) {
+            return 1;
+        }
+    }
+    return 0;
+}
+
+struct Employee addEmployee(struct Employee employeeList[], int size) {
+    struct Employee list;
+    int sanity = 0;
+    do {
+        printf("Enter new employee ID: ");
+        scanf("%d", &list.id);
+        if (list.id <= 0) {
+            printf("Id must be a positive number\n");
+        } else if (idCheck(list.id, employeeList, size) == 1) {
+            printf("This id already exists, please enter a different number\n\n");
+        } else {
+            sanity = 0;
+        }
+    } while (sanity == 1);
+
+    printf("Enter employee name: ");
+    scanf("%49s", list.name);
+    printf("Enter employee gender: ");
+    scanf("%49s", list.gender);
+    printf("Enter employee ethnicity: ");
+    scanf("%49s", list.ethnicity);
+    do {
+        sanity = 0;
+        printf("Enter employee salary: ");
+        scanf("%f", &list.salary);
+        if (list.salary <= 0) {
+            printf("Salary must be a positive number!\n");
+            sanity = 1;
+        }
+    } while (sanity == 1);
+    return list;
+}
+
+void deleteEmployee(int ID, struct Employee employeeList[], int* size) {
+    int found = 0;
+    int i = 0;
+    do {
+        if (ID == employeeList[i].id) {
+            found = 1;
+        } else {
             i++;
-			break;
-		case 2:
-			if (i == 0) {
-				printf("No employees to remove.\n");
-			}
-			else {
-				printf("Enter employee ID to remove: ");
-				scanf("%d", &ID);
-				deleteEmployee(&ID, employeeList, &i);
-			}
-			break;
-		}
-		default:
-			printf("Invalid choice, try again");
-			break;
+        }
+    } while (found == 0 && i < *size);
 
-		
-	} while (choice != 0);
-
-	return 0;
-}
-int idCheck(int ID, struct employee employeeList[], int size) {
-	for (int i = 0; i < size; i++) {
-		if (employeeList[i].ID == ID) {
-			return 1;
-		}
-	}
-	return 0; 
+    if (found == 1) {
+        while(i < *size - 1) {
+            employeeList[i] = employeeList[i + 1];
+            i++;
+        }
+        (*size)--;
+    } else {
+        printf("User id does not exist\n");
+    }
 }
 
-struct employee addEmployee(struct employee employeeList[], int size){
-	struct employee list;
-	int sanity = 0;
-	do {
-		printf("Enter new employee ID: ");
-		scanf("%d", &list.ID);
-		if (list.ID <= 0) {
-			printf("Id must be a positive number");
-		}
-		else if (idCheck(list.ID, employeeList, size) == 1) {
-			printf("This id already exists, please enther a different number\n\n");
-		}
-		else {
-			sanity = 0;
-		}
-	} while (sanity == 1);
-
-	printf("Enter employee name: ");
-	scanf("%49s", list.name);
-	printf("Enter employee gender: ");
-	scanf("%49s", list.gender);
-	printf("Enter employee ethnicity: ");
-	scanf("%49s", list.ethnicity);
-	do {
-		sanity = 0;
-		printf("Enter employee salary: ");
-		scanf("%f", &list.salary);
-		if (list.salary <= 0) {
-			printf("salary must be a positive number!\n");
-			sanity = 1;
-		}
-	} while (sanity == 1);
-	return list;
-}
-
-void deleteEmployee(int ID, struct employee employeeList[], int* size) {
-	int found = 0;
-	int i = 0;
-	do {
-		if (ID == employeeList[i].ID) {
-			found = 1;
-			;
-		}
-		else {
-			i++;
-		}
-	} while (found == 0 && i < *size);
-
-	if (found == 1) {
-		while(i < *size - 1) {
-			employeeList[i] = employeeList[i + 1];
-			i++;
-		}
-		(*size)--;
-	}	
-	else {
-		printf("User id does not exist");
-	}
-}
-
-
-// Max: function to display employees, with optional filters by gender/ethnicity
 void displayEmployees(struct Employee *list, int count) {
-    if (count == 0) {                // Max: check if there are employees in the system
+    if (count == 0) {
         printf("\nNo employees to display.\n");
         return;
     }
 
-    int option;                      // Max: store filter option
-    char gender[20];                 // Max: gender filter text
-    char ethnicity[30];              // Max: ethnicity filter text
+    int option;
+    char gender[20];
+    char ethnicity[30];
 
-    // Max: show display options
     printf("\n--- Display Employees ---\n");
     printf("1. All employees\n");
     printf("2. Filter by gender\n");
@@ -151,79 +151,43 @@ void displayEmployees(struct Employee *list, int count) {
     printf("4. Filter by gender AND ethnicity\n");
     printf("Choose an option: ");
     scanf("%d", &option);
-    clearInputBuffer();              // Max: clear buffer to avoid leftover characters
+    clearInputBuffer();
 
-    // Max: take gender input if needed
     if (option == 2 || option == 4) {
         printf("Enter gender to filter by: ");
         scanf("%19s", gender);
         clearInputBuffer();
     }
 
-    // Max: take ethnicity input if needed
     if (option == 3 || option == 4) {
         printf("Enter ethnicity to filter by: ");
         scanf("%29[^\n]", ethnicity);
         clearInputBuffer();
     }
 
-    int found = 0;                   // Max: track if any match found
-    struct employee *p = list;       // Max: pointer to iterate employees
+    int found = 0;
+    struct Employee *p = list;
 
-    // Max: loop using pointer arithmetic
     for (int i = 0; i < count; i++, p++) {
-        int match = 1;               // Max: assume record matches
+        int match = 1;
 
         if (option == 2 && strcmp(p->gender, gender) != 0)
-            match = 0;               // Max: skip if gender mismatch
+            match = 0;
         if (option == 3 && strcmp(p->ethnicity, ethnicity) != 0)
-            match = 0;               // Max: skip if ethnicity mismatch
+            match = 0;
         if (option == 4 &&
             (strcmp(p->gender, gender) != 0 ||
              strcmp(p->ethnicity, ethnicity) != 0))
-            match = 0;               // Max: skip if both filters fail
+            match = 0;
 
-        if (option == 1 || match) {  // Max: print if all or matching
-            printEmployee(p);
+        if (option == 1 || match) {
+            printf("ID: %d, Name: %s, Gender: %s, Ethnicity: %s, Salary: %.2f\n",
+                   p->id, p->name, p->gender, p->ethnicity, p->salary);
             found = 1;
         }
     }
 
-    if (!found && option != 1) {     // Max: no matches message
+    if (!found && option != 1) {
         printf("No employees match your filters.\n");
     }
-};
-void findEmployee(int id) {
-    printf('%d Employee', id);
-};
-// Max: simplified salary comparison (Marcos handles calculations)
-void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg) {
-    printf("\n--- Salary Comparison Report ---\n");
-
-    // Max: gender comparison
-    if (maleAvg > 0 && femaleAvg > 0) {
-        float diff = maleAvg - femaleAvg;
-        if (diff > 0)
-            printf("Male employees earn %.2f more on average than female employees.\n", diff);
-        else if (diff < 0)
-            printf("Female employees earn %.2f more on average than male employees.\n", -diff);
-        else
-            printf("Male and female employees earn the same on average.\n");
-    }
-
-    // Max: ethnicity comparison
-    if (bipocAvg > 0 && nonBipocAvg > 0) {
-        float diff = nonBipocAvg - bipocAvg;
-        if (diff > 0)
-            printf("Non-BIPOC employees earn %.2f more on average than BIPOC employees.\n", diff);
-        else if (diff < 0)
-            printf("BIPOC employees earn %.2f more on average than Non-BIPOC employees.\n", -diff);
-        else
-            printf("BIPOC and Non-BIPOC employees earn the same on average.\n");
-    }
-
-    printf("\nEquity assessment complete.\n");
-};
-void displayComparison() {
-
-};
+}
