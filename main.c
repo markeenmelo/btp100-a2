@@ -1,3 +1,4 @@
+#define maxEmployee 50
 #include <stdio.h>
 #include <string.h>
 
@@ -9,8 +10,8 @@ struct Employee {
     float salary;
 };
 
-struct employee addEmployee();
-void deleteEmployee();
+struct employee addEmployee(struct employee employeeList[], int size);
+void deleteEmployee(int ID, struct employee employeeList[], int* size);
 void displayEmployees(struct Employee *list, int count);
 void findEmployee(int id);
 void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg);
@@ -41,36 +42,96 @@ int main() {
 			employeeList[i] = addEmployee();
             i++;
 			break;
-		case 2: 
-			deleteEmployee; 
+		case 2:
+			if (i == 0) {
+				printf("No employees to remove.\n");
+			}
+			else {
+				printf("Enter employee ID to remove: ");
+				scanf("%d", &ID);
+				deleteEmployee(&ID, employeeList, &i);
+			}
 			break;
 		}
+		default:
+			printf("Invalid choice, try again");
+			break;
+
+		
 	} while (choice != 0);
+
 	return 0;
 }
-
-    return 0;
+int idCheck(int ID, struct employee employeeList[], int size) {
+	for (int i = 0; i < size; i++) {
+		if (employeeList[i].ID == ID) {
+			return 1;
+		}
+	}
+	return 0; 
 }
 
-struct employee addEmployee(){
+struct employee addEmployee(struct employee employeeList[], int size){
 	struct employee list;
-	printf("Enter new employee ID: ");
-	scanf("%d", &list.id);
+	int sanity = 0;
+	do {
+		printf("Enter new employee ID: ");
+		scanf("%d", &list.ID);
+		if (list.ID <= 0) {
+			printf("Id must be a positive number");
+		}
+		else if (idCheck(list.ID, employeeList, size) == 1) {
+			printf("This id already exists, please enther a different number\n\n");
+		}
+		else {
+			sanity = 0;
+		}
+	} while (sanity == 1);
+
 	printf("Enter employee name: ");
 	scanf("%49s", list.name);
 	printf("Enter employee gender: ");
 	scanf("%49s", list.gender);
 	printf("Enter employee ethnicity: ");
 	scanf("%49s", list.ethnicity);
-	printf("Enter employee salary: ");
-	scanf("%f", &list.salary); 
+	do {
+		sanity = 0;
+		printf("Enter employee salary: ");
+		scanf("%f", &list.salary);
+		if (list.salary <= 0) {
+			printf("salary must be a positive number!\n");
+			sanity = 1;
+		}
+	} while (sanity == 1);
 	return list;
-
 }
 
-void deleteEmployee() {
+void deleteEmployee(int ID, struct employee employeeList[], int* size) {
+	int found = 0;
+	int i = 0;
+	do {
+		if (ID == employeeList[i].ID) {
+			found = 1;
+			;
+		}
+		else {
+			i++;
+		}
+	} while (found == 0 && i < *size);
 
-};
+	if (found == 1) {
+		while(i < *size - 1) {
+			employeeList[i] = employeeList[i + 1];
+			i++;
+		}
+		(*size)--;
+	}	
+	else {
+		printf("User id does not exist");
+	}
+}
+
+
 // Max: function to display employees, with optional filters by gender/ethnicity
 void displayEmployees(struct Employee *list, int count) {
     if (count == 0) {                // Max: check if there are employees in the system
