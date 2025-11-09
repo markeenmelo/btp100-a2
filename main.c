@@ -1,20 +1,21 @@
 #include <stdio.h>
 #include <string.h>
-#define MAX_EMPLOYEES 50
+#define MAX_EMPLOYEES 50  
+// declares the max number of employees
 
-struct Employee {
-    int id;
-    char name[50];
-    char gender[50];
-    char ethnicity[50];
+struct Employee { // Tyler: struct for employee data type that will store id, name, gender, ethnicity and salary
+    int id; 
+    char name[50]; 
+    char gender[50]; 
+    char ethnicity[50]; 
     float salary;
 };
 
 int areStringsEqual(const char *str1, const char *str2);
 
 
-struct Employee addEmployee(struct Employee employees[], int size);
-void deleteEmployee(int ID, struct Employee employees[], int* size);
+struct Employee addEmployee(struct Employee employees[], int size); // Tyler: declaring the add employee function that has the data type employee and will receive 2 variables employee and size variable
+void deleteEmployee(int ID, struct Employee employees[], int* size); // Tyler: declaring the delete employee function that will receive ID, employee and a pointer to size variable
 void findEmployee(struct Employee *employees, int targetId);
 void displayEmployees(struct Employee *list, int count);
 float calculateAverageSalary(struct Employee *employees, const char *targetGender, const char *targetEthnicity);
@@ -34,8 +35,8 @@ int main() {
         {109, "Casey Rivera", "non-binary", "people of color", 49500.00}
     };
 
-    int choice = 1, i = 0;
-    int ID;
+    int choice = 1, i = 0; // Tyler: choice and i variable for interation and which option the user selects
+    int ID; // 
 
     printf("Welcome to the company's data management program\n");
     do {
@@ -48,25 +49,29 @@ int main() {
         printf("6. Exit\n");
         scanf("%d", &choice);
 
-        switch(choice) {
-            case 1:
-                employees[i] = addEmployee(employees, i);
-                i++;
-                break;
+        switch(choice) { // Tyler: switch with the choice variable, checks choice variable to see what the user inputs
+            case 1: // Tyler: add a new employee
+                employees[i] = addEmployee(employees, i); // Tyler: assigns the added employee to the employees array with the result of the add employee function
+                i++; // adds 1 to the size after adding an employee
+                break; 
             case 2:
-                if (i == 0) {
-                    printf("No employees to remove.\n");
-                } else {
+                if (i == 0) { // scenario for when the user wants to delete when there's no employees
+                    printf("No employees to remove.\n"); 
+                } else { // Tyler: runs when theres 1 or more employees
                     printf("Enter employee ID to remove: ");
-                    scanf("%d", &ID);
-                    deleteEmployee(ID, employees, &i);
+                    scanf("%d", &ID); // Tyler: scans the users input for the id they want to delete
+                    deleteEmployee(ID, employees, &i); // Tyler: calls the delete employee function with the ID, employees array and &i variable. Because i is the size so it needs pass by address to change the size after deleting an employee
                 }
+                break; 
+            case 6: // Tyler: case for when user wants to exit the program
+                printf("Thank you for using our program!\n");
+                choice = 6; // changes the choice variable to 6 so the do while loop is invalid and it ends
                 break;
             default:
-                printf("Invalid choice, try again\n");
-                break;
+                printf("Invalid choice, try again\n"); // Tyler: default case for when user inputs a value not in the menu
+                break; 
         }
-    } while (choice != 6);
+    } while (choice != 6); // condition that ends the do while loop when the user chooses exit option
 
     return 0;
 }
@@ -76,67 +81,69 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-int idCheck(int ID, struct Employee employeeList[], int size) {
-    for (int i = 0; i < size; i++) {
-        if (employeeList[i].id == ID) {
-            return 1;
+int idCheck(int ID, struct Employee employeeList[], int size) { // Tyler: id check function used in delete employee fucntion to see if id exists
+    for (int i = 0; i < size; i++) { // Tyler: for loop that checks the whole employee list's IDs for duplicates
+        if (employeeList[i].id == ID) { // Tyler: condition for finding a duplicate
+            return 1; // Tyler: value returned when the duplicate is found
         }
     }
-    return 0;
+    return 0; // Tyler: value returned when there are no duplicates
 }
 
-struct Employee addEmployee(struct Employee employeeList[], int size) {
-    struct Employee list;
-    int sanity = 0;
-    do {
-        printf("Enter new employee ID: ");
-        scanf("%d", &list.id);
-        if (list.id <= 0) {
+struct Employee addEmployee(struct Employee employeeList[], int size) { // Tyler: declares the add employee fucntion as an employee data type
+    struct Employee list; // Tyler: declares list as an employee data type 
+    int sanity = 0; // Tyler: variable for sanity check
+    do { // Tyler: do while loop that ensures the users input is valid
+        printf("Enter new employee ID: "); // Tyler: ask the user to input an ID
+        scanf("%d", &list.id); // Tyler: scans the users input for the ID
+        if (list.id <= 0) { // Tyler: happens when user enters a non positive numer
             printf("Id must be a positive number\n");
-        } else if (idCheck(list.id, employeeList, size) == 1) {
+        } else if (idCheck(list.id, employeeList, size) == 1) { // Tyler: calls the id check function that runs and checks if the id the user typed in is a duplicate or not
             printf("This id already exists, please enter a different number\n\n");
-        } else {
-            sanity = 0;
+        } else { // Tyler: happens when the user enters a valid value and doesn't get flagged for errors
+            sanity = 0; // Tyler: sanity will be 0 and ends the do/while 
         }
-    } while (sanity == 1);
+    } while (sanity == 1); // Tyler: condition for do while loop, runs when user enters a wrong or invalid value
 
     printf("Enter employee name: ");
-    scanf("%49s", list.name);
+    scanf("%49s", list.name); // Tyler: scans users input for employee name
     printf("Enter employee gender: ");
-    scanf("%49s", list.gender);
+    scanf("%49s", list.gender); // Tyler: scans users input for employee gender
     printf("Enter employee ethnicity: ");
-    scanf("%49s", list.ethnicity);
-    do {
-        sanity = 0;
-        printf("Enter employee salary: ");
-        scanf("%f", &list.salary);
-        if (list.salary <= 0) {
-            printf("Salary must be a positive number!\n");
-            sanity = 1;
+    scanf("%49s", list.ethnicity); // Tyler: scans users input for employee etnicity
+    do { // Tyler: do while loop for sanity checkking the salary input
+        sanity = 0; // Tyler: resets the sanity value
+        printf("Enter employee salary: "); 
+        scanf("%f", &list.salary); // Tyler: scans the users input for salary
+        if (list.salary <= 0) { // Tyler: flags if user input is a non positive number
+            printf("Salary must be a positive number!\n"); 
+            sanity = 1; // Tyler: changes the value of sanity so that the loop reruns and asks the salary input from user again 
         }
-    } while (sanity == 1);
-    return list;
+    } while (sanity == 1); // condition to run the loop when the user types a non valid value
+    return list; // returns the value of the list that gets assigned to the employee list array
 }
 
-void deleteEmployee(int ID, struct Employee employeeList[], int* size) {
-    int found = 0;
-    int i = 0;
-    do {
-        if (ID == employeeList[i].id) {
-            found = 1;
-        } else {
-            i++;
-        }
-    } while (found == 0 && i < *size);
 
-    if (found == 1) {
-        while(i < *size - 1) {
-            employeeList[i] = employeeList[i + 1];
-            i++;
+
+void deleteEmployee(int ID, struct Employee employeeList[], int* size) { // Tyler: declares the delete employee funciton as a void funciton and takes varaibles ID, employee list, and size variable as a pass by adddress so it can change the size after deleting a 
+    int found = 0; // Tyler: declares the found variable for flagging the id when found
+    int i = 0; // Tyler: loop iterator
+    do { // do while loop for checking for ID
+        if (ID == employeeList[i].id) { // Tyler: checks for when the id is the same as the user input
+            found = 1; // Tyler: changes the found variable value for when the same id is found
+        } else { // Tyler: happens when the user input id is not the same as the current id being checked
+            i++; // Tyler: adds 1 to the interation so it checks the next ID value
         }
-        (*size)--;
-    } else {
-        printf("User id does not exist\n");
+    } while (found == 0 && i < *size); // Tyler: condition to stop the search when the id typed is found or it has reached the end
+
+    if (found == 1) { // Tyler: condition when the id user typed is found
+        while(i < *size - 1) { // Tyler: while loop to replace the current id with the values after it, size -1 so that it doesn't replace the last variable with an empty value 
+            employeeList[i] = employeeList[i + 1]; // Tyler: replacing the current i with the one after it
+            i++; // Tyler: increases the i value by 1 to keep going
+        }
+        (*size)--; // Tyler: decreases the value by 1 after removing 1 employee
+    } else { // Tyler: happens when the id user inputted is not found 
+        printf("User id does not exist\n"); 
     }
 }
 
