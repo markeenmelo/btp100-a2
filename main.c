@@ -16,7 +16,7 @@ void displayEmployees(struct Employee *list, int count);
 void findEmployee(int id);
 void salaryAnalysis(float maleAvg, float femaleAvg, float bipocAvg, float nonBipocAvg);
 void displayComparison();
-
+//
 int main() {
     struct Employee employees[100];
     int main() {
