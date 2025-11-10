@@ -119,8 +119,8 @@ struct Employee addEmployee(struct Employee employeeList[], int size) { // Tyler
             printf("Salary must be a positive number!\n"); 
             sanity = 1; // Tyler: changes the value of sanity so that the loop reruns and asks the salary input from user again 
         }
-    } while (sanity == 1); // condition to run the loop when the user types a non valid value
-    return list; // returns the value of the list that gets assigned to the employee list array
+    } while (sanity == 1); // Tyler: condition to run the loop when the user types a non valid value
+    return list; // Tyler: returns the value of the list that gets assigned to the employee list array
 }
 
 
@@ -128,7 +128,7 @@ struct Employee addEmployee(struct Employee employeeList[], int size) { // Tyler
 void deleteEmployee(int ID, struct Employee employeeList[], int* size) { // Tyler: declares the delete employee funciton as a void funciton and takes varaibles ID, employee list, and size variable as a pass by adddress so it can change the size after deleting a 
     int found = 0; // Tyler: declares the found variable for flagging the id when found
     int i = 0; // Tyler: loop iterator
-    do { // do while loop for checking for ID
+    do { // Tyler: do while loop for checking for ID
         if (ID == employeeList[i].id) { // Tyler: checks for when the id is the same as the user input
             found = 1; // Tyler: changes the found variable value for when the same id is found
         } else { // Tyler: happens when the user input id is not the same as the current id being checked
