@@ -16,8 +16,8 @@ int areStringsEqual(const char *str1, const char *str2);
 
 struct Employee addEmployee(struct Employee *employees, int size); // Tyler: declaring the add employee function that has the data type employee and will receive 2 variables employees as a pointer and size variable
 void deleteEmployee(int ID, struct Employee *employees, int* size); // Tyler: declaring the delete employee function that will receive ID, employee as a pointer and size as a pointer to directly change the values of them
-void findEmployee(struct Employee *employees, int targetId);
 void displayEmployees(struct Employee *employees, int count);
+void findEmployee(struct Employee *employees, int targetId);
 float calculateAverageSalary(struct Employee *employees, const char *targetGender, const char *targetEthnicity);
 void displayComparison(struct Employee *employees);
 
@@ -49,7 +49,8 @@ int main() {
         printf("3. Display employees (with filters)\n");           // Max: option to view employee list
         printf("4. Search employee by ID\n");                      // Max: option to find one employee
         printf("5. Salary comparison & averages\n");               // Max: option to run equity analysis
-        printf("0. Exit\n");                                       // Max: option to quit the program
+        printf("0. Exit\n\n");                                       // Max: option to quit the program
+        printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch(choice) { // Tyler: switch with the choice variable, checks choice variable to see what the user inputs
@@ -65,10 +66,11 @@ int main() {
                     scanf("%d", &ID); // Tyler: scans the users input for the id they want to delete
                     deleteEmployee(ID, employees, &i); // Tyler: calls the delete employee function with the ID, employees array and &i variable. Because i is the size so it needs pass by address to change the size after deleting an employee
                 }
-                break; 
-            case 6: // Tyler: case for when user wants to exit the program
+                break;
+            case 3:
+                printf("")
+            case 0: // Tyler: case for when user wants to exit the program
                 printf("Thank you for using our program!\n");
-                choice = 6; // changes the choice variable to 6 so the do while loop is invalid and it ends
                 break;
             default:
                 printf("Invalid choice, try again\n"); // Tyler: default case for when user inputs a value not in the menu
