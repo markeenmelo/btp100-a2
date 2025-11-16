@@ -11,9 +11,6 @@ struct Employee { // Tyler: struct for employee data type that will store id, na
     float salary;
 };
 
-int areStringsEqual(const char *str1, const char *str2);
-
-
 struct Employee addEmployee(struct Employee *employees, int size); // Tyler: declaring the add employee function that has the data type employee and will receive 2 variables employees as a pointer and size variable
 void deleteEmployee(int ID, struct Employee *employees, int* size); // Tyler: declaring the delete employee function that will receive ID, employee as a pointer and size as a pointer to directly change the values of them
 void displayEmployees(struct Employee *employees, int count);
@@ -49,6 +46,7 @@ int main() {
         printf("3. Display employees (with filters)\n");           // Max: option to view employee list
         printf("4. Search employee by ID\n");                      // Max: option to find one employee
         printf("5. Salary comparison & averages\n");               // Max: option to run equity analysis
+        printf("6. Display comparison results for all genders and/or ethinicity\n");               // Max: option to run equity analysis
         printf("0. Exit\n\n");                                       // Max: option to quit the program
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -68,7 +66,31 @@ int main() {
                 }
                 break;
             case 3:
-                printf("")
+                displayEmployees(employees, i);
+                break;
+            case 4:
+                if (i == 0) {
+                    printf("No employees to search.\n");
+                } else {
+                    printf("Enter employee ID to search: ");
+                    scanf("%d", &ID);
+                    findEmployee(employees, ID);
+                }
+                break;
+            case 5:
+                if (i == 0) {
+                    printf("No employees to compare.\n");
+                } else {
+                    displayEmployees(employees, i);
+                }
+                break;
+            case 6:
+                if (i == 0) {
+                    printf("No employees to compare.\n");
+                } else {
+                    displayComparison(employees);
+                }
+                break;
             case 0: // Tyler: case for when user wants to exit the program
                 printf("Thank you for using our program!\n");
                 break;
@@ -76,7 +98,7 @@ int main() {
                 printf("Invalid choice, try again\n"); // Tyler: default case for when user inputs a value not in the menu
                 break; 
         }
-    } while (choice != 6); // condition that ends the do while loop when the user chooses exit option
+    } while (choice != 0); // condition that ends the do while loop when the user chooses exit option
 
     return 0;
 }
@@ -212,15 +234,6 @@ void displayEmployees(struct Employee *employees, int count) {
     }
 }
 
-int areStringsEqual(const char *str1, const char *str2) {
-    int i = 0;
-    while (str1[i] != '\0' || str2[i] != '\0') {
-        if (str1[i] != str2[i]) return 0;
-        i++;
-    }
-    return 1;
-}
-
 void findEmployee(struct Employee *employees, int targetId) {
     int found = 0;
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
@@ -241,8 +254,8 @@ float calculateAverageSalary(struct Employee *employees, const char *targetGende
     float salarySum = 0.0;
     int count = 0;
     for (int i = 0; i < MAX_EMPLOYEES; i++) {
-        int genderMatch = targetGender == NULL ? 1 : areStringsEqual(employees[i].gender, targetGender);
-        int ethnicityMatch = targetEthnicity == NULL ? 1 : areStringsEqual(employees[i].ethnicity, targetEthnicity);
+        int genderMatch = targetGender == NULL ? 1 : strcmp(employees[i].gender, targetGender) == 0;
+        int ethnicityMatch = targetEthnicity == NULL ? 1 : strcmp(employees[i].ethnicity, targetEthnicity) == 0;
         if (genderMatch && ethnicityMatch) {
             salarySum += employees[i].salary;
             count++;
@@ -259,12 +272,12 @@ void displayComparison(struct Employee *employees) {
     int ethnicitiesCount = sizeof(ethnicities) / sizeof(ethnicities[0]);
     for (int i = 0; i < gendersCount; i++) {
         for (int j = 0; j < ethnicitiesCount; j++) {
-            const char *genderParam = areStringsEqual(genders[i], "any") ? NULL : genders[i];
-            const char *ethnicityParam = areStringsEqual(ethnicities[j], "any") ? NULL : ethnicities[j];
+            const char *genderParam = strcmp(genders[i], "any") == 0 ? NULL : genders[i];
+            const char *ethnicityParam = strcmp(ethnicities[j], "any") == 0 ? NULL : ethnicities[j];
 
             float averageSalary = calculateAverageSalary(employees, genderParam, ethnicityParam);
-            const char *genderLabel = areStringsEqual(genders[i], "any") ? "any gender" : genders[i];
-            const char *ethnicityLabel = areStringsEqual(ethnicities[j], "any") ? "any ethnicity" : ethnicities[j];
+            const char *genderLabel = strcmp(genders[i], "any") == 0 ? "any gender" : genders[i];
+            const char *ethnicityLabel = strcmp(ethnicities[j], "any") == 0 ? "any ethnicity" : ethnicities[j];
 
             printf("Average salary for %s and %s => $%.2f\n", genderLabel, ethnicityLabel, averageSalary);
         }
