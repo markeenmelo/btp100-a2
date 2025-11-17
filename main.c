@@ -25,7 +25,7 @@ void calculateAverageSalary(struct Employee *employees, int count);     // MARCO
 void displayComparison(struct Employee *employees, int count);          // MARCOS
 
 // function prototypes for helper functions (user input and menu display)
-void displayMenu(void);                 // MARCOS
+void displayMenu(void);                 // MAX
 char* selectGender(void);               // MARCOS
 char* selectEthnicity(void);            // MARCOS
 char* selectGenderWithAny(void);        // MARCOS
@@ -109,7 +109,7 @@ int main(void) {
 // takes no parameters
 void displayMenu(void) {
     // print menu header
-    printf("\n--- Menu ---\n");
+    printf("\n=== Menu ===\n");
     // print all menu options available to the user
     printf("1. Add a new employee\n");
     printf("2. Delete an employee\n");
@@ -330,8 +330,6 @@ void addEmployee(struct Employee* employees, int* count) {
             printf("Employee with ID %d already exists.\n", id);
             // set flag to indicate employee id exists
             exists = 1;
-            // exit the loop early since we found a duplicate
-            break;
         }
         // move pointer to the next employee in the array
         current++;
@@ -392,8 +390,6 @@ void deleteEmployee(struct Employee* employees, int* count) {
         if (current->id == id) {
             // set flag to indicate employee was found
             found = 1;
-            // exit the loop since we found the employee
-            break;
         }
         // move pointer to the next employee in the array
         current++;
@@ -634,8 +630,6 @@ void searchEmployeeByID(struct Employee* employees, int count) {
                    current->salary);
             // set flag to indicate employee was found
             found = 1;
-            // exit the loop early since we found the employee
-            break;
         }
         // move pointer to the next employee in the array
         current++;
